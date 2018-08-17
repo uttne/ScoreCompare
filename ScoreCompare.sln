@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScoreCompare", "ScoreCompare\ScoreCompare.csproj", "{3F307F08-4BEB-4A2A-8F18-742437CABA84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScoreCompare", "ScoreCompare\ScoreCompare.csproj", "{3F307F08-4BEB-4A2A-8F18-742437CABA84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScoreCompare.Test", "ScoreCompare.Test\ScoreCompare.Test.csproj", "{8789227F-C273-4281-A06F-6299CBD3EE5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3F307F08-4BEB-4A2A-8F18-742437CABA84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F307F08-4BEB-4A2A-8F18-742437CABA84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F307F08-4BEB-4A2A-8F18-742437CABA84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8789227F-C273-4281-A06F-6299CBD3EE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8789227F-C273-4281-A06F-6299CBD3EE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8789227F-C273-4281-A06F-6299CBD3EE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8789227F-C273-4281-A06F-6299CBD3EE5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
