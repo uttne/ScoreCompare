@@ -6,6 +6,9 @@ namespace ScoreCompare.MusicXml.Elements
     [XmlRoot("score-partwise")]
     public class ScorePartwise
     {
+        private CreditCollection _credits;
+        private PartCollection _parts;
+
         [XmlAttribute(AttributeName ="version",DataType ="token")]
         public string Version { get; set; }
 
@@ -25,13 +28,21 @@ namespace ScoreCompare.MusicXml.Elements
         public Defaults Defaults { get; set; }
 
         [XmlElement(ElementName = "credit", Type =typeof(Credit))]
-        public CreditCollection Credits { get; set; }
+        public CreditCollection Credits
+        {
+            get => _credits ?? (_credits = new CreditCollection());
+            set => _credits = value;
+        }
 
         [XmlElement(ElementName = "part-list", Type =typeof(PartList))]
         public PartList PartList { get; set; }
 
         [XmlElement(ElementName = "part",Type = typeof(Part))]
-        public PartCollection Parts { get; set; }
+        public PartCollection Parts
+        {
+            get => _parts ?? (_parts = new PartCollection());
+            set => _parts = value;
+        }
 
 
         public override bool Equals(object obj)
