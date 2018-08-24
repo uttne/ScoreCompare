@@ -52,5 +52,41 @@ namespace ScoreCompare.Test.MusicXml
             };
             Assert.AreEqual(expected, actual);
         }
+
+
+        [TestMethod]
+        public void ConvertTo_part_deserialize_success()
+        {
+               var target = new Parser();
+
+            var xml = @"<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE score-partwise PUBLIC '-//Recordare//DTD MusicXML 2.0 Partwise//EN' 'http://www.musicxml.org/dtds/partwise.dtd'>
+<score-partwise>
+  <part id='1'>
+    <measure/>
+    <measure/>
+  </part>
+</score-partwise>
+";
+
+            var actual = target.Parse(xml);
+
+            var expected = new ScorePartwise()
+            {
+                Parts = new PartCollection()
+                {
+                    new Part()
+                    {
+                        Id = "1",
+                        Measures = new MeasureCollection()
+                        {
+                            new Measure(),
+                            new Measure(),
+                        }
+                    },
+                },
+            };
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
