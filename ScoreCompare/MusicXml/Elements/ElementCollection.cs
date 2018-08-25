@@ -2,34 +2,34 @@
 
 namespace ScoreCompare.MusicXml.Elements
 {
-    public class MeasureCollection : List<Measure>
+    public class ElementCollection<TElement> : List<TElement>
     {
-        public MeasureCollection()
+        public ElementCollection()
         {
 
         }
 
-        public MeasureCollection(IEnumerable<Measure> collection) : base(collection)
+        public ElementCollection(IEnumerable<TElement> collection) : base(collection)
         {
 
         }
 
-        public MeasureCollection(int capacity) : base(capacity)
+        public ElementCollection(int capacity) : base(capacity)
         {
 
         }
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as MeasureCollection);
+            return Equals(obj as ElementCollection<TElement>);
         }
 
-        protected bool Equals(MeasureCollection obj)
+        protected bool Equals(ElementCollection<TElement> obj)
         {
             if (obj == null || Count != obj.Count)
                 return false;
 
-            var comaparer = EqualityComparer<Measure>.Default;
+            var comaparer = EqualityComparer<TElement>.Default;
             for (int i = 0; i < Count; ++i)
             {
                 if (comaparer.Equals(this[i], obj[i]))
@@ -43,7 +43,7 @@ namespace ScoreCompare.MusicXml.Elements
         public override int GetHashCode()
         {
             var hashCode = 689873310;
-            var comaparer = EqualityComparer<Measure>.Default;
+            var comaparer = EqualityComparer<TElement>.Default;
             for (int i = 0; i < Count; ++i)
             {
                 hashCode = hashCode * -1521134295 + comaparer.GetHashCode(this[i]);

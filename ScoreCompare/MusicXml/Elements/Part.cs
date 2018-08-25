@@ -5,15 +5,15 @@ namespace ScoreCompare.MusicXml.Elements
 {
     public class Part
     {
-        private MeasureCollection _measures;
+        private ElementCollection<Measure> _measures;
 
         [XmlAttribute(AttributeName = "id",DataType = "IDREF")]
         public string Id { get; set; }
 
         [XmlElement(ElementName = "measure",Type=typeof(Measure))]
-        public MeasureCollection Measures
+        public ElementCollection<Measure> Measures
         {
-            get => _measures ?? (_measures = new MeasureCollection());
+            get => _measures ?? (_measures = new ElementCollection<Measure>());
             set => _measures = value;
         }
 
@@ -34,7 +34,7 @@ namespace ScoreCompare.MusicXml.Elements
         {
             return obj != null &&
                    Id == obj.Id &&
-                   EqualityComparer<MeasureCollection>.Default.Equals(Measures, obj.Measures);
+                   EqualityComparer<ElementCollection<Measure>>.Default.Equals(Measures, obj.Measures);
         }
 
     }

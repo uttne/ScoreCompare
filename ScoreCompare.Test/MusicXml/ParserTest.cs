@@ -33,7 +33,7 @@ namespace ScoreCompare.Test.MusicXml
             var expected = new ScorePartwise()
             {
                 Work = new Work(),
-                Credits = new CreditCollection()
+                Credits = new ElementCollection<Credit>()
                 {
                     new Credit(),
                     new Credit()
@@ -43,7 +43,7 @@ namespace ScoreCompare.Test.MusicXml
                 MovementNumber = "",
                 MovementTitle = "",
                 PartList = new PartList(),
-                Parts = new PartCollection()
+                Parts = new ElementCollection<Part>()
                 {
                     new Part(),
                     new Part(),
@@ -73,12 +73,12 @@ namespace ScoreCompare.Test.MusicXml
 
             var expected = new ScorePartwise()
             {
-                Parts = new PartCollection()
+                Parts = new ElementCollection<Part>()
                 {
                     new Part()
                     {
                         Id = "1",
-                        Measures = new MeasureCollection()
+                        Measures = new ElementCollection<Measure>()
                         {
                             new Measure(),
                             new Measure(),

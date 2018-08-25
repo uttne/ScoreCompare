@@ -6,8 +6,8 @@ namespace ScoreCompare.MusicXml.Elements
     [XmlRoot("score-partwise")]
     public class ScorePartwise
     {
-        private CreditCollection _credits;
-        private PartCollection _parts;
+        private ElementCollection<Credit> _credits;
+        private ElementCollection<Part> _parts;
 
         [XmlAttribute(AttributeName ="version",DataType ="token")]
         public string Version { get; set; }
@@ -28,9 +28,9 @@ namespace ScoreCompare.MusicXml.Elements
         public Defaults Defaults { get; set; }
 
         [XmlElement(ElementName = "credit", Type =typeof(Credit))]
-        public CreditCollection Credits
+        public ElementCollection<Credit> Credits
         {
-            get => _credits ?? (_credits = new CreditCollection());
+            get => _credits ?? (_credits = new ElementCollection<Credit>());
             set => _credits = value;
         }
 
@@ -38,9 +38,9 @@ namespace ScoreCompare.MusicXml.Elements
         public PartList PartList { get; set; }
 
         [XmlElement(ElementName = "part",Type = typeof(Part))]
-        public PartCollection Parts
+        public ElementCollection<Part> Parts
         {
-            get => _parts ?? (_parts = new PartCollection());
+            get => _parts ?? (_parts = new ElementCollection<Part>());
             set => _parts = value;
         }
 
@@ -77,9 +77,9 @@ namespace ScoreCompare.MusicXml.Elements
                    MovementTitle == obj.MovementTitle &&
                    EqualityComparer<Identification>.Default.Equals(Identification, obj.Identification) &&
                    EqualityComparer<Defaults>.Default.Equals(Defaults, obj.Defaults) &&
-                   EqualityComparer<CreditCollection>.Default.Equals(Credits, obj.Credits) &&
+                   EqualityComparer<ElementCollection<Credit>>.Default.Equals(Credits, obj.Credits) &&
                    EqualityComparer<PartList>.Default.Equals(PartList, obj.PartList) &&
-                   EqualityComparer<PartCollection>.Default.Equals(Parts, obj.Parts);
+                   EqualityComparer<ElementCollection<Part>>.Default.Equals(Parts, obj.Parts);
         }
 
     }
