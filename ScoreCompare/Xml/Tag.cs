@@ -4,7 +4,7 @@
     {
         public string TagText { get; }
 
-        internal Tag(string text, string tagText):base(text)
+        internal Tag(string syntaxText, string tagText):base(syntaxText)
         {
             TagText = tagText;
         }

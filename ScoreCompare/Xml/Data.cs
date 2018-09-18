@@ -4,7 +4,7 @@
     {
         public string Value { get; }
 
-        public Data(string text, string value):base(text)
+        public Data(string syntaxText, string value):base(syntaxText)
         {
             Value = value;
         }

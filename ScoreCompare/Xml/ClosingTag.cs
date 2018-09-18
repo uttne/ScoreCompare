@@ -4,7 +4,7 @@
     {
         public string Name { get; }
 
-        internal ClosingTag(string text, string tagText,string name) : base(text, tagText)
+        internal ClosingTag(string syntaxText, string tagText,string name) : base(syntaxText, tagText)
         {
             Name = name;
         }

@@ -2,11 +2,11 @@
 {
     public class Syntax
     {
-        public string Text { get; }
+        public string SyntaxText { get; }
 
-        internal Syntax(string text)
+        internal Syntax(string syntaxText)
         {
-            Text = text;
+            SyntaxText = syntaxText;
         }
     }
 }
