@@ -7,44 +7,82 @@ namespace ScoreCompare.Xml
     {
         public IEnumerable<Syntax> Parse(string xml)
         {
-            var startIndex = 0;
-            var substringLength = 0;
+            var tagStartIndex = 0;
+            var tagLength = 0;
+
+            var dataStartIndex = 0;
+            var dataLength = -1;
 
             bool isTag = false;
-            bool isData = false;
+            bool isOpening = false;
+            int validDataStartIndex = -1;
 
-            // Todo New line support
+            var tagStack = new Stack<Tag>();
+
             // Todo Comment support
 
             for (int i = 0; i < xml.Length; ++i)
             {
                 var c = xml[i];
 
+                
                 switch (c)
                 {
                     case '<':
-                        if (isData)
-                        {
-                            var syntaxText = xml.Substring(startIndex, substringLength);
-                            yield return ParseToData(syntaxText);
-
-                            isData = false;
-                        }
                         isTag = true;
-                        startIndex = i;
-                        substringLength = 1;
+                        tagStartIndex = i;
+                        tagLength = 1;
+                        
                         continue;
                     case '>':
                         if (isTag)
                         {
                             isTag = false;
-                            substringLength++;
-                            var syntaxText = xml.Substring(startIndex, substringLength);
+                            tagLength++;
+                            var syntaxText = xml.Substring(tagStartIndex, tagLength);
                             var tagType = JudgeTagType(syntaxText);
-                            if ((tagType & TagType.Opening) == TagType.Opening)
-                                yield return ParseOpeningTag(syntaxText);
-                            if ((tagType & TagType.Closing) == TagType.Closing)
-                                yield return ParseClosingTag(syntaxText);
+
+                            var tagIsOpening = (tagType & TagType.Opening) == TagType.Opening;
+                            if (tagIsOpening)
+                            {
+                                if (validDataStartIndex != -1)
+                                {
+                                    throw new XmlAnalysisException();
+                                }
+
+                                var tag = ParseOpeningTag(syntaxText);
+                                tagStack.Push(tag);
+                                yield return tag;
+                                isOpening = true;
+                            }
+
+                            var tagIsClosing = (tagType & TagType.Closing) == TagType.Closing;
+                            if (tagIsClosing)
+                            {
+                                if (tagIsOpening){}
+                                else
+                                {
+                                    if (dataLength != -1)
+                                    {
+                                        var syntaxDataText = xml.Substring(dataStartIndex, dataLength);
+                                        yield return ParseToData(syntaxDataText);
+                                    }
+                                }
+
+
+                                var tag = ParseClosingTag(syntaxText);
+                                if (!(tagStack.Pop() is OpeningTag openingTag && openingTag.Name == tag.Name))
+                                    throw new XmlAnalysisException();
+                                yield return tag;
+                                isOpening = false;
+                            }
+
+                            validDataStartIndex = -1;
+                            dataLength = -1;
+                        }
+                        else
+                        {
+                            throw new XmlAnalysisException();
                         }
                         
                         break;
@@ -53,13 +91,46 @@ namespace ScoreCompare.Xml
                     case '\n':
                         break;
                     default:
-                        if (!isData && !isTag)
+                        switch (c)
                         {
-                            isData = true;
-                            startIndex = i;
-                            substringLength = 0;
+                            case '\r':
+                            case '\n':
+                            case ' ':
+                            case '\t':
+                                break;
+                            default:
+                                if (isTag) { }
+                                else
+                                {
+                                    if (isOpening)
+                                    {
+                                        if (validDataStartIndex == -1)
+                                            validDataStartIndex = i;
+                                    }
+                                    else
+                                        throw new XmlAnalysisException();
+                                }
+                                
+                                break;
                         }
-                        substringLength++;
+
+                        if (isTag)
+                        {
+                            tagLength++;
+                        }
+                        else
+                        {
+                            if (dataLength == -1)
+                            {
+                                dataStartIndex = i;
+                                dataLength = 1;
+                            }
+                            else
+                            {
+                                dataLength++;
+                            }
+                        }
+
                         break;
                 }
                 
