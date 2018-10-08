@@ -140,10 +140,12 @@ namespace ScoreCompare.Xml
         [Flags]
         internal enum TagType
         {
-            None = 0,
-            Opening = 1,
-            Closing = 2,
-            Comment = 4
+            None = 0x0,
+            Opening = 0x1,
+            Closing = 0x2,
+            Comment = 0x4,
+            XmlDeclaration = 0x8,
+            Doctype = 0x10,
         }
 
         internal TagType JudgeTagType(string syntaxText)
@@ -168,7 +170,20 @@ namespace ScoreCompare.Xml
             else if (first == '/')
                 ret |= TagType.Closing;
             else
-                ret |= TagType.Opening;
+            {
+                if (first == '?' && latest == '?')
+                {
+                    ret = TagType.XmlDeclaration;
+                }
+                else if (syntaxText.IndexOf("!DOCTYPE", 1,StringComparison.Ordinal) == 1)
+                {
+                    ret = TagType.Doctype;
+                }
+                else
+                {
+                    ret |= TagType.Opening;
+                }
+            }
 
             return ret;
         }
